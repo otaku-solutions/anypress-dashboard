@@ -2,19 +2,17 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { ArrowRightIcon, CircleDollarSignIcon, DownloadIcon } from "lucide-react";
+import { ArrowRightIcon, CircleDollarSignIcon } from "lucide-react";
 
 import { useSellPrices } from "@/hooks/use-sell-prices";
-import { PLANS, PLAN_NAMES, VOLUME_IN_WORDS, cost, dollars, fill, keep, type GroupId, type Guide, type KitContext, type Plan } from "@/lib/sales-kit";
-import { KitMarkdown } from "@/components/admin/kit-markdown";
-import { Button } from "@/components/ui/button";
+import { PLANS, PLAN_NAMES, VOLUME_IN_WORDS, cost, dollars, keep, type GroupId, type Guide, type KitContext, type Plan } from "@/lib/sales-kit";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardIcon } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cn } from "cn";
-import { GroupIcon, download, slug } from "./kit-ui";
+import { GroupIcon } from "./kit-ui";
 import { ProspectFinder } from "./prospect-finder";
 import { ProspectList } from "./prospect-list";
+import { Guides } from "./guides";
 
 export type GroupSummary = { id: GroupId; title: string; plan: Plan; who: string; finder: string[] };
 
@@ -96,7 +94,7 @@ export function SellHome({
       </TabsContent>
 
       <TabsContent value="guides">
-        <Guides guides={guides} ctx={{ ...context, prices }} />
+        <Guides guides={guides} ctx={{ ...context, prices }} productId={productId} setPrice={setPrice} wholesalePercent={wholesalePercent} />
       </TabsContent>
     </Tabs>
   );
@@ -155,43 +153,5 @@ function Prices({ prices, setPrice, wholesalePercent }: { prices: Record<Plan, n
         </p>
       </CardContent>
     </Card>
-  );
-}
-
-function Guides({ guides, ctx }: { guides: Guide[]; ctx: KitContext }) {
-  const [open, setOpen] = React.useState(guides[0]?.id);
-  const guide = guides.find((g) => g.id === open) ?? guides[0];
-  if (!guide) return null;
-  return (
-    <div className="grid gap-4 lg:grid-cols-[14rem_1fr] lg:gap-6">
-      <nav className="flex gap-1 overflow-x-auto lg:flex-col" aria-label="Guides">
-        {guides.map((g) => (
-          <button
-            key={g.id}
-            type="button"
-            onClick={() => setOpen(g.id)}
-            aria-current={g.id === guide.id}
-            className={cn(
-              "hover:bg-muted rounded-lg px-3 py-2 text-left text-sm whitespace-nowrap transition-colors",
-              g.id === guide.id ? "bg-muted font-medium" : "text-muted-foreground"
-            )}
-          >
-            {g.title}
-          </button>
-        ))}
-      </nav>
-      <Card className="min-w-0">
-        <CardHeader className="flex flex-row items-start justify-between gap-3">
-          <CardTitle>{guide.title}</CardTitle>
-          <Button variant="outline" size="sm" onClick={() => download(`${slug(ctx.brand)}-${guide.id}.md`, `# ${guide.title}\n\n${fill(guide.body, ctx)}\n`)}>
-            <DownloadIcon data-icon="inline-start" />
-            Download
-          </Button>
-        </CardHeader>
-        <CardContent>
-          <KitMarkdown source={guide.body.replace(/^## /gm, "### ")} ctx={ctx} />
-        </CardContent>
-      </Card>
-    </div>
   );
 }

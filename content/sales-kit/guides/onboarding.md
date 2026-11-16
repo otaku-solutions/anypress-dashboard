@@ -3,36 +3,50 @@ id: onboarding
 title: From yes to a live site
 ---
 
-What happens after a customer says yes, and what to do at each step so their first week goes well.
+Everything from their yes to a happy first month. Tick things off as you go.
 
-## 1. Sign-up
+## Sign-up
 
-Send them your shop link: {{shop}}. They pick a plan, pay, and their site is made in a few minutes. They get a welcome email from {{sender}} with a link to sign in.
+**When:** Day 0
 
-If you're setting the site up for them, sign up on their behalf with their email address, so the site and the emails are in their name.
+- Send them your shop link: {{shop}}.
+- They pick a plan and pay. Their site is made in a few minutes.
+- They get a welcome email from {{sender}} with a link to sign in.
+- Setting it up for them? Sign up with their email address, so the site and emails are in their name.
 
-## 2. The first call (30 minutes, within two days)
+## First call
+
+**When:** Within 2 days
 
 - Sign in with them and pick a design together.
 - Add their logo, colours, business details and opening hours.
 - Connect their domain, or keep the free address until they're ready.
 - Show them how to change a page, add a photo and see new enquiries.
 
-## 3. Their content (first week)
+## Their content
 
-- Pages: home, about, services or products, contact.
-- For shops: products, shipping and payment account. Regulated products bring their own payment account.
-- For bookings: services, staff and hours.
-- For community and courses: the first course or group, and membership prices.
+**When:** First week
 
-## 4. Go live
+- **Website:** home, about, services and contact pages.
+- **Store:** products, shipping and their payment account. Regulated products bring their own payment account.
+- **Bookings:** services, staff and hours.
+- **Community:** the first course or group, and membership prices.
 
-Check the site at phone and desktop width, send a test enquiry and a test order, then switch on their domain. Send them a short "you're live" email with {{support}} for questions.
+## Go live
 
-## 5. The first month
+**When:** Go-live day
+
+- Check the site at phone and desktop width.
+- Send a test enquiry and a test order.
+- Switch on their domain.
+- Send a short "you're live" email with {{support}} for questions.
+
+## First month
+
+**When:** Weeks 1 to 4
 
 - Week 1: a short check-in. Anything confusing?
-- Week 2: suggest one improvement (a review section, an email sign-up, a booking button on every page).
+- Week 2: suggest one improvement, like a review section, an email sign-up or a booking button on every page.
 - Week 4: send a summary of visits and enquiries, and ask for a review or a referral.
 
 ## Keeping customers
