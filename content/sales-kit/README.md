@@ -22,4 +22,11 @@ What the dashboard's Sell page shows sellers and resellers: one playbook per cus
 - `guides/call-script.md`: a first call, start to finish.
 - `guides/onboarding.md`: from yes to a live site.
 
+The Guides tab shows the four guides as one path, in the order a sale happens, and reads each guide's `##` sections by their shape (`lib/sell-guides.ts`), so keep to it:
+
+- Every guide: the text before the first `##` is the guide's one-line lead. A `>` paragraph shows as a notice. A list whose items all start with `**Label:**` shows as tiles.
+- `call-script.md`: a section named `Name (N minutes)` is one part of the call: a line in quotes to say, a list of things to do, then one tip. Sections without minutes (Before the call, After the call) are checklists.
+- `objections.md`: each section is what the prospect says, in quotes, with `**Topic:**`, `**Ask back:**` and `**Then say:**` lines.
+- `onboarding.md`: each section is a step with a `**When:**` line and a checklist; a list of `**Site type:**` items shows one site type at a time. A section without `**When:**` is the closing tip.
+
 Each playbook has the same parts in the same order, so the Sell page can show them as tabs: Who, Where to find them, What to lead with, Offer, Outreach (emails, texts, social), Objections, Demo.
