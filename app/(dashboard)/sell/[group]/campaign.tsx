@@ -99,6 +99,8 @@ export function Campaign({
   const [prices] = useSellPrices(productId);
   const ctx: KitContext = { ...context, prices, plan: playbook.plan };
   const price = prices[playbook.plan];
+  // Kept here so the picked prospect stays picked when the seller looks at another tab and comes back.
+  const [forId, setFor] = React.useState(ANYONE);
 
   return (
     <Tabs defaultValue="pitch" className="gap-4">
@@ -130,6 +132,8 @@ export function Campaign({
             look={look}
             pictures={pictures}
             prospects={prospects}
+            forId={forId}
+            onFor={setFor}
             ctx={ctx}
           />
         </div>
@@ -304,6 +308,8 @@ function Pieces({
   look,
   pictures,
   prospects,
+  forId,
+  onFor,
   ctx
 }: {
   productId: string;
@@ -314,9 +320,10 @@ function Pieces({
   look: { color: string | null; logo: string | null };
   pictures: { desktop: string; phone: string };
   prospects: ReadyProspect[];
+  forId: string;
+  onFor: (id: string) => void;
   ctx: KitContext;
 }) {
-  const [forId, setFor] = React.useState(ANYONE);
   const prospect = prospects.find((p) => p.id === forId) ?? null;
   const href = (kind: "offer" | "deck") =>
     `/print/sell?product=${encodeURIComponent(productId)}&group=${playbook.id}&kind=${kind}${prospect ? `&prospect=${encodeURIComponent(prospect.id)}` : ""}`;
@@ -345,7 +352,7 @@ function Pieces({
             In the {context.brand} name, with your prices. Pick a prospect to put their name on them and a code that opens their demo.
           </CardDescription>
         </div>
-        <Select value={forId} onValueChange={setFor}>
+        <Select value={forId} onValueChange={onFor}>
           <SelectTrigger size="sm" className="w-56" aria-label="Made for">
             <SelectValue />
           </SelectTrigger>

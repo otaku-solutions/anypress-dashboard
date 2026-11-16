@@ -480,6 +480,29 @@ function Deck(props: Piece & { presenting: boolean; onClose: () => void }) {
   );
 }
 
+const NEXT_KEYS = ["ArrowRight", "PageDown", " "];
+const BACK_KEYS = ["ArrowLeft", "PageUp"];
+
+/** The presenter's keys. Space is taken from a focused button so it moves one slide, not two; Tab stays inside. */
+function presenterKey(e: KeyboardEvent, el: HTMLElement | null, go: (n: number) => void, onClose: () => void) {
+  if (e.key === "Escape") return onClose();
+  if (e.key === "Tab") return keepFocusIn(e, el);
+  const step = NEXT_KEYS.includes(e.key) ? 1 : BACK_KEYS.includes(e.key) ? -1 : 0;
+  if (!step) return;
+  e.preventDefault();
+  go(step);
+}
+
+/** Wraps Tab and Shift+Tab around the presenter's own buttons. */
+function keepFocusIn(e: KeyboardEvent, el: HTMLElement | null) {
+  const buttons = [...(el?.querySelectorAll<HTMLElement>("button") ?? [])];
+  if (!buttons.length) return;
+  const at = buttons.indexOf(document.activeElement as HTMLElement);
+  const next = (at + (e.shiftKey ? -1 : 1) + buttons.length) % buttons.length;
+  e.preventDefault();
+  buttons[at === -1 && e.shiftKey ? buttons.length - 1 : next]!.focus();
+}
+
 /** One slide at a time, filling the screen: arrows, space or a click move on; Escape ends. */
 function Presenter({ slides: all, onClose }: { slides: React.ReactNode[]; onClose: () => void }) {
   const [i, setI] = React.useState(0);
@@ -487,12 +510,10 @@ function Presenter({ slides: all, onClose }: { slides: React.ReactNode[]; onClos
   const go = React.useCallback((n: number) => setI((cur) => Math.min(all.length - 1, Math.max(0, cur + n))), [all.length]);
   React.useEffect(() => {
     const el = ref.current;
+    const opener = document.activeElement as HTMLElement | null;
+    el?.focus();
     el?.requestFullscreen?.().catch(() => {});
-    const key = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      else if (["ArrowRight", "PageDown", " "].includes(e.key)) go(1);
-      else if (["ArrowLeft", "PageUp"].includes(e.key)) go(-1);
-    };
+    const key = (e: KeyboardEvent) => presenterKey(e, el, go, onClose);
     const left = () => !document.fullscreenElement && onClose();
     window.addEventListener("keydown", key);
     document.addEventListener("fullscreenchange", left);
@@ -500,11 +521,13 @@ function Presenter({ slides: all, onClose }: { slides: React.ReactNode[]; onClos
       window.removeEventListener("keydown", key);
       document.removeEventListener("fullscreenchange", left);
       if (document.fullscreenElement) document.exitFullscreen().catch(() => {});
+      opener?.focus();
     };
   }, [go, onClose]);
   return (
     <div
       ref={ref}
+      tabIndex={-1}
       role="dialog"
       aria-modal="true"
       aria-label="Presenting the pitch deck"

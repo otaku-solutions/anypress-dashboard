@@ -326,7 +326,7 @@ const SITE_TYPE_EXAMPLE: Record<string, SiteExample> = { website: "website", boo
 
 /** Full-page pictures of the example site, desktop and phone: the prospect's site type when known, else the group's. */
 export function sitePictures(group: GroupId, siteType?: string | null): { desktop: string; phone: string } {
-  const example = (siteType && SITE_TYPE_EXAMPLE[siteType]) || GROUP_SITE[group];
+  const example = siteType && Object.hasOwn(SITE_TYPE_EXAMPLE, siteType) ? SITE_TYPE_EXAMPLE[siteType]! : GROUP_SITE[group];
   return { desktop: `/sell/sites/${example}-desktop.webp`, phone: `/sell/sites/${example}-phone.webp` };
 }
 
@@ -419,12 +419,19 @@ export function included(setup: string | null): string[] {
 
 /** White or near-black text, whichever reads better on a colour (a #rrggbb hex), for text on the seller's colour. */
 export function textOn(hex: string): "#ffffff" | "#141a18" {
+  const bg = luminance(hex);
+  if (bg === null) return "#ffffff";
+  const contrast = (fg: number) => (Math.max(bg, fg) + 0.05) / (Math.min(bg, fg) + 0.05);
+  return contrast(luminance("#141a18")!) > contrast(1) ? "#141a18" : "#ffffff";
+}
+
+/** A colour's relative luminance (WCAG), or null when it isn't a six-digit hex colour. */
+function luminance(hex: string): number | null {
   const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
-  if (!m) return "#ffffff";
+  if (!m) return null;
   const [r, g, b] = [0, 2, 4].map((i) => {
     const c = parseInt(m[1]!.slice(i, i + 2), 16) / 255;
     return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
   });
-  const luminance = 0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
-  return luminance > 0.36 ? "#141a18" : "#ffffff";
+  return 0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
 }

@@ -1,21 +1,23 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import QRCode from "qrcode";
 
 import { getViewer } from "@/auth";
 import { getAdminApi } from "@/lib/api/client";
-import { requestHost } from "@/lib/dashboard-host";
 import { GROUP_IDS, customerFacingShop, sitePictures, objectionList, pitch, titleCase, type GroupId } from "@/lib/sales-kit";
 import { loadSalesKit } from "@/lib/sales-kit-files";
 import { PrintSheet } from "./print-sheet";
 
 type Search = Promise<{ product?: string; group?: string; kind?: string; prospect?: string }>;
 
-/** A demo's full address: demo links can be paths on this dashboard. */
+/** A demo's full address: demo links can be paths on this dashboard, so they take this request's origin, port included. */
 async function absolute(url: string) {
   if (/^https?:/.test(url)) return url;
-  const host = await requestHost();
-  return `${host === "localhost" ? "http" : "https"}://${host}${url}`;
+  const h = await headers();
+  const host = (h.get("x-forwarded-host") ?? h.get("host") ?? "").split(",")[0]!.trim();
+  const proto = h.get("x-forwarded-proto")?.split(",")[0]?.trim() ?? (host.startsWith("localhost") ? "http" : "https");
+  return new URL(url, `${proto}://${host}`).toString();
 }
 
 /** The prospect a sheet or deck is made for, when one is picked and their demo is ready. */
