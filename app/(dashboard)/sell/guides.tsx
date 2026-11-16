@@ -163,36 +163,48 @@ function SayThis({ label, text, ctx, large = false }: { label: string; text: str
   );
 }
 
-/** Ticked items, kept in this browser per storefront and guide. */
+/** Ticked items as stored: only `true`/`false` values count, anything else is dropped. */
+function parseTicks(raw: string | null): Record<string, boolean> {
+  try {
+    const value: unknown = JSON.parse(raw ?? "null");
+    if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+    return Object.fromEntries(Object.entries(value).filter((e): e is [string, boolean] => typeof e[1] === "boolean"));
+  } catch {
+    return {};
+  }
+}
+
+/** Tells every open checklist on this page that ticks changed; other tabs hear it through the storage event. */
+const tickListeners = new Set<() => void>();
+function subscribeTicks(onChange: () => void) {
+  tickListeners.add(onChange);
+  window.addEventListener("storage", onChange);
+  return () => {
+    tickListeners.delete(onChange);
+    window.removeEventListener("storage", onChange);
+  };
+}
+
+/** Ticked items, kept in this browser per storefront and guide, and in step across tabs. */
 function useTicks(productId: string, guideId: string) {
   const key = `anypress:sell-guide-ticks:${productId}:${guideId}`;
-  const saved = React.useSyncExternalStore(
-    () => () => {},
-    () => {
-      try {
-        return localStorage.getItem(key);
-      } catch {
-        return null;
-      }
-    },
-    () => null
-  );
-  const [edited, setEdited] = React.useState<Record<string, boolean> | null>(null);
-  const ticks = React.useMemo<Record<string, boolean>>(() => {
-    if (edited) return edited;
+  const read = () => {
     try {
-      return (JSON.parse(saved ?? "null") as Record<string, boolean> | null) ?? {};
+      return localStorage.getItem(key);
     } catch {
-      return {};
+      return null;
     }
-  }, [edited, saved]);
+  };
+  const saved = React.useSyncExternalStore(subscribeTicks, read, () => null);
+  // Used only where this browser won't keep anything (private windows, blocked storage).
+  const [visit, setVisit] = React.useState<Record<string, boolean>>({});
+  const ticks = React.useMemo(() => ({ ...visit, ...parseTicks(saved) }), [visit, saved]);
   const toggle = (id: string, on: boolean) => {
-    const next = { ...ticks, [id]: on };
-    setEdited(next);
     try {
-      localStorage.setItem(key, JSON.stringify(next));
+      localStorage.setItem(key, JSON.stringify({ ...parseTicks(read()), [id]: on }));
+      tickListeners.forEach((l) => l());
     } catch {
-      /* kept for this visit only */
+      setVisit((v) => ({ ...v, [id]: on }));
     }
   };
   return [ticks, toggle] as const;
@@ -275,7 +287,8 @@ function Calculator({ prices, setPrice, wholesalePercent }: { prices: Record<Pla
   const price = prices[plan];
   const each = siteCost(plan, sites, wholesalePercent);
   const months = yearly ? PRICES.yearlyMonths / 12 : 1;
-  const kept = Math.max(0, Math.round((price - each) * months * 100) / 100);
+  const kept = Math.round((price - each) * months * 100) / 100;
+  const loss = kept < 0;
   const share = price > 0 ? Math.min(100, (each / price) * 100) : 100;
   return (
     <div className="grid gap-5 lg:grid-cols-[1.2fr_1fr]">
@@ -307,10 +320,12 @@ function Calculator({ prices, setPrice, wholesalePercent }: { prices: Record<Pla
       </div>
       <div className="flex flex-col gap-2">
         <div className="bg-muted rounded-[5px] p-4">
-          <p className="text-muted-foreground text-xs font-semibold">You keep each month</p>
-          <p className="text-3xl font-semibold tracking-tight tabular-nums">${dollars(kept)}</p>
+          <p className="text-muted-foreground text-xs font-semibold">{loss ? "You lose each month" : "You keep each month"}</p>
+          <p className={cn("text-3xl font-semibold tracking-tight tabular-nums", loss && "text-rose-700 dark:text-rose-300")}>
+            {loss && "−"}${dollars(Math.abs(kept))}
+          </p>
           <p className="text-muted-foreground text-xs">
-            per site{sites > 1 && ` · $${dollars(Math.round(kept * sites * 100) / 100)} across ${sites} sites`}
+            per site{sites > 1 && ` · ${loss ? "−" : ""}$${dollars(Math.abs(Math.round(kept * sites * 100) / 100))} across ${sites} sites`}
             {yearly && " · yearly, as a monthly average"}
           </p>
           <div className="bg-card mt-3 flex h-2.5 overflow-hidden rounded-full" aria-hidden>
@@ -387,13 +402,12 @@ function CallGuide({ guide, ctx, productId }: { guide: Guide; ctx: KitContext; p
             </Button>
           </div>
         </div>
-        <div className="flex h-11 gap-0.5" role="tablist" aria-label="Parts of the call">
+        <div className="flex h-11 gap-0.5" role="group" aria-label="Parts of the call">
           {stages.map((s, i) => (
             <button
               key={s.name}
               type="button"
-              role="tab"
-              aria-selected={i === current}
+              aria-pressed={i === current}
               onClick={() => setCurrent(i)}
               style={{ flex: s.minutes }}
               className={cn(
@@ -407,7 +421,7 @@ function CallGuide({ guide, ctx, productId }: { guide: Guide; ctx: KitContext; p
             </button>
           ))}
         </div>
-        {stage && <Stage key={stage.name} stage={stage} ctx={ctx} />}
+        {stage && <Stage stage={stage} ctx={ctx} ticks={ticks} onTick={onTick} />}
       </GuideCard>
       <div className="grid gap-4 md:grid-cols-2">
         {checklists.map((c) => (
@@ -425,13 +439,12 @@ function CallGuide({ guide, ctx, productId }: { guide: Guide; ctx: KitContext; p
   );
 }
 
-function Stage({ stage, ctx }: { stage: CallStage; ctx: KitContext }) {
-  const [done, setDone] = React.useState<Record<string, boolean>>({});
+function Stage({ stage, ctx, ticks, onTick }: { stage: CallStage; ctx: KitContext; ticks: Record<string, boolean>; onTick: (id: string, on: boolean) => void }) {
   return (
     <div className="grid gap-4 lg:grid-cols-[1.3fr_1fr]">
       {stage.say && <SayThis label="Say something like" text={stage.say} ctx={ctx} large />}
       <div className="flex flex-col gap-3">
-        <Checklist items={stage.steps} ctx={ctx} ticks={done} onTick={(id, on) => setDone({ ...done, [id]: on })} prefix={stage.name} />
+        <Checklist items={stage.steps} ctx={ctx} ticks={ticks} onTick={onTick} prefix={`part:${stage.name}`} />
         {stage.tip && <p className="text-muted-foreground border-step-ring border-l-2 pl-3 text-[0.8125rem]">{stage.tip}</p>}
       </div>
     </div>
