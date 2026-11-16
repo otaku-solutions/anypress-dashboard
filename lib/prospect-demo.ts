@@ -39,7 +39,7 @@ const BLUEPRINTS: Record<string, string> = {
   // The old all-in-one "store" type is today's Everything site.
   store: "everything"
 };
-const RAW = "https://raw.githubusercontent.com/hamchowderr/waas-provisioning-api/main/templates/anypress-store/playground/";
+const RAW = "https://raw.githubusercontent.com/otaku-solutions/anypress-api/main/templates/anypress-store/playground/";
 
 /**
  * The Playground blueprint for a prospect's demo: its site type's, as a new store of that type starts, then what was

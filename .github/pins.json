@@ -3,13 +3,13 @@
   "pins": [
     {
       "name": "AnyPress theme (demo pages)",
-      "source": "github:hamchowderr/anypress-theme",
+      "source": "github:otaku-solutions/anypress-theme",
       "places": [{ "file": "lib/demos.ts", "match": "export const THEME_TAG = \"v(?<version>[^\"]+)\"" }],
       "run": ["node scripts/demo-photos.mjs"]
     },
     {
       "name": "AnyPress Blocks (demo pages)",
-      "source": "github:hamchowderr/anypress-blocks",
+      "source": "github:otaku-solutions/anypress-blocks",
       "places": [{ "file": "lib/demos.ts", "match": "const BLOCKS_TAG = \"v(?<version>[^\"]+)\"" }]
     }
   ]

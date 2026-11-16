@@ -2,7 +2,7 @@ import type { ApiRequest, Care, FluentRoute, HighLevelLink, JobProgress, MoveIn,
 
 /**
  * The admin API's response bodies, exactly as openapi/admin/admin-api.yaml (v0.1.0) in
- * hamchowderr/waas-provisioning-api defines them. http.ts maps these to the view types
+ * otaku-solutions/anypress-api defines them. http.ts maps these to the view types
  * in types.ts. When the spec changes, change this file first.
  */
 

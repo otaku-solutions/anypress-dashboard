@@ -301,7 +301,7 @@ Merged 2026-10-13 · Beads: waas-9y4
 
 Before: the Backups page's Reason filter only offered Manual and Suspend.
 
-After: it also offers Scheduled, for the nightly store backups added in hamchowderr/waas-provisioning-api#34. Those rows already render without this change, since the reason column prints the value as-is.
+After: it also offers Scheduled, for the nightly store backups added in otaku-solutions/anypress-api#34. Those rows already render without this change, since the reason column prints the value as-is.
 
 How: adds `"scheduled"` to the backup reason type in `lib/api/wire.ts` and `lib/api/types.ts`, plus one filter option. `tsc --noEmit` passes.
 
@@ -313,7 +313,7 @@ Before: there was nowhere to set which domain a store's email comes from.
 
 After: each store page has an **Email sender** card. "Use own domain" adds a domain such as shop.example.com. The card then lists the three DNS records to add, each with copy buttons for the name and value. A badge shows the state: "Waiting for DNS" until toSend verifies the records, then "Sending". "Stop using this domain" moves the store back to the platform address.
 
-How: there's a new `mailDomain`, `setMailDomain` and `removeMailDomain` on the admin API client, backed by the HTTP API and by the sample data. Two new server actions call them, and the client component is `stores/[id]/mail-sender.tsx`. The card needs api PR hamchowderr/waas-provisioning-api#37. Against an API without that PR, the card shows the platform address because GET answers 404.
+How: there's a new `mailDomain`, `setMailDomain` and `removeMailDomain` on the admin API client, backed by the HTTP API and by the sample data. Two new server actions call them, and the client component is `stores/[id]/mail-sender.tsx`. The card needs api PR otaku-solutions/anypress-api#37. Against an API without that PR, the card shows the platform address because GET answers 404.
 
 I checked it in a browser with sample data: adding a domain shows the records and the pending badge. Typecheck, lint and tests pass.
 
@@ -335,7 +335,7 @@ Before: a store's page listed its backups but nothing could be done with them.
 
 After: each Ready backup has a Restore button. It opens a confirm dialog explaining that the store goes back to that moment, with "Back up the store as it is now first" ticked by default. The new safety backups show with reason "Before restore" on the store page and the Backups page (including its filter).
 
-How: `restoreBackup` server action → `POST /admin/tenants/{id}/restore` (needs hamchowderr/waas-provisioning-api on the same branch to be deployed first). Fixture API implements it too. Typecheck, lint and tests pass; checked in the browser against sample data.
+How: `restoreBackup` server action → `POST /admin/tenants/{id}/restore` (needs otaku-solutions/anypress-api on the same branch to be deployed first). Fixture API implements it too. Typecheck, lint and tests pass; checked in the browser against sample data.
 
 ## #13 Docs: README for outside users, GPL-3.0
 
@@ -377,7 +377,7 @@ After: a new **API keys** page under Storefronts.
 - Revoking a storefront's last active key gets an extra warning.
 - A new key's secret is shown once, with copy buttons. The dialog only closes after "I've copied the secret" is ticked.
 
-Needs API PR hamchowderr/waas-provisioning-api#48, which adds the endpoints; merge that first. Sample-data mode (`WAAS_API_FIXTURES=1`) has the same flows.
+Needs API PR otaku-solutions/anypress-api#48, which adds the endpoints; merge that first. Sample-data mode (`WAAS_API_FIXTURES=1`) has the same flows.
 
 How: four admin calls in the API client (`apiKeys`, `createAgency`, `createApiKey`, `rotateApiKey`, `revokeApiKey`), server actions that check the session and inputs, and `app/(dashboard)/keys/`. Secrets travel only from the server action's return value to the dialog's state; nothing logs or caches them.
 
@@ -403,7 +403,7 @@ Beads: waas-api-jc4
 
 Merged 2026-10-14 · Beads: waas-api-04p
 
-Beads: **waas-api-04p**. Needs hamchowderr/waas-provisioning-api#50 (the `/admin/webhooks` endpoints) deployed first.
+Beads: **waas-api-04p**. Needs otaku-solutions/anypress-api#50 (the `/admin/webhooks` endpoints) deployed first.
 
 Before: the dashboard had no view of webhooks. The API didn't send any yet.
 
