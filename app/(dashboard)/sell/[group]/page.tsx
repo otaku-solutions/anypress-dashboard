@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ChevronLeft } from "lucide-react";
 
-import { GROUP_IDS, campaign, demosFor, pitch, type GroupId } from "@/lib/sales-kit";
+import { GROUP_IDS, campaign, demosFor, objectionList, pitch, sitePictures, titleCase, type GroupId } from "@/lib/sales-kit";
+import { getAdminApi } from "@/lib/api/client";
 import { Button } from "@/components/ui/button";
 import { loadKitFor, pickProduct } from "../load";
 import { GroupIcon } from "../kit-ui";
@@ -14,7 +15,7 @@ type Search = Promise<{ product?: string }>;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { group } = await params;
-  return { title: `Sales Kit · ${group.replace(/^./, (c) => c.toUpperCase())}` };
+  return { title: `Sales Kit · ${titleCase(group)}` };
 }
 
 export default async function SellGroupPage({ params, searchParams }: { params: Params; searchParams: Search }) {
@@ -25,7 +26,14 @@ export default async function SellGroupPage({ params, searchParams }: { params: 
     if (first) redirect(`/sell/${group}?product=${first.id}`);
     redirect("/sell");
   }
-  const kit = await loadKitFor(product);
+  const [kit, list] = await Promise.all([
+    loadKitFor(product),
+    getAdminApi()
+      .prospectDemos(product.id)
+      .catch(() => null)
+  ]);
+  // Prospects whose website is read, newest first: a sheet or deck can be made for them.
+  const prospects = (list?.prospects ?? []).filter((p) => p.statusCode === 1).map((p) => ({ id: p.id, company: p.company }));
   const playbook = kit.playbooks.find((p) => p.id === group)!;
   const section = (title: string) => playbook.sections.find((s) => s.title === title)?.body ?? "";
   const callScript = kit.guides.find((g) => g.id === "call-script");
@@ -41,8 +49,8 @@ export default async function SellGroupPage({ params, searchParams }: { params: 
         </Button>
         <GroupIcon id={playbook.id} className="size-10 max-sm:hidden" />
         <div className="min-w-0">
-          <h1 className="truncate text-xl font-bold tracking-tight lg:text-2xl">{playbook.title}</h1>
-          <p className="text-muted-foreground truncate text-sm">A 32-day plan to win them, under the {kit.context.brand} name</p>
+          <h1 className="text-xl text-balance sm:truncate font-bold tracking-tight lg:text-2xl">{titleCase(playbook.title)}</h1>
+          <p className="text-muted-foreground text-sm sm:truncate">{pitch(playbook).headline}</p>
         </div>
       </div>
       <Campaign
@@ -52,11 +60,14 @@ export default async function SellGroupPage({ params, searchParams }: { params: 
         pitch={pitch(playbook)}
         who={section("Who")}
         where={section("Where to find them")}
-        objections={section("Objections")}
+        objections={objectionList(section("Objections"))}
         demo={section("Demo")}
         demos={demosFor(playbook.id)}
         callScript={callScript?.body ?? ""}
         context={kit.context}
+        look={kit.look}
+        pictures={sitePictures(playbook.id)}
+        prospects={prospects}
         wholesalePercent={kit.wholesalePercent}
       />
     </div>

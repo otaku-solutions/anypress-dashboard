@@ -21,14 +21,18 @@ The best prospects already have clients paying them monthly, and turn down websi
 
 ## What to lead with
 
+**Headline:** A website for every client, under your name. We run them.
+
+**Today:** Turning clients away when they ask for a website; sites you maintain for free; clients sent somewhere else.
+
 **Their pain:** clients ask for a website and they either say no, build one they then have to maintain for free, or send the client somewhere else.
 
 **Your answer:** "Offer websites to your clients under your own name. I host, update and back them up; you keep the client and add a monthly line to every invoice."
 
 Three things to show:
 1. A client's site goes live in minutes from a ready-made design.
-2. Updates, security, backups and support handled for them.
-3. Their own price on top, so every site adds monthly income.
+2. Updates, security, backups and support handled for you.
+3. Your own price on top, so every site adds monthly income.
 
 **For HighLevel agencies:** every sub-account they sell can come with a real WordPress site, made by their HighLevel workflow and connected to that sub-account as a CRM.
 

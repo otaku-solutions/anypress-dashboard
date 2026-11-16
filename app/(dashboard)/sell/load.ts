@@ -35,5 +35,7 @@ export async function loadKitFor(product: ProductDetail) {
     // Demo links stay a blank in messages: Playground links name the theme's repository, so a seller pastes their own.
     demo: null
   };
-  return { ...kit, context, wholesalePercent: reseller?.wholesalePercent ?? null };
+  // The seller's colour and logo, for the offer sheet and deck previews.
+  const look = { color: branding?.shown.color ?? null, logo: branding?.shown.logoUrl ?? null };
+  return { ...kit, context, look, wholesalePercent: reseller?.wholesalePercent ?? null };
 }

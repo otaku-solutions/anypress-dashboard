@@ -5,6 +5,7 @@ import { StoreIcon } from "lucide-react";
 import { PageHeader } from "@/components/admin/page-header";
 import { EmptyState } from "@/components/admin/empty-state";
 import { Card } from "@/components/ui/card";
+import { pitch, sitePictures, titleCase } from "@/lib/sales-kit";
 import { loadKitFor, pickProduct } from "./load";
 import { SellHome } from "./sell-home";
 
@@ -42,7 +43,7 @@ export default async function SellPage({ searchParams }: { searchParams: Promise
       <SellHome
         key={product.id}
         productId={product.id}
-        groups={kit.playbooks.map((p) => ({ id: p.id, title: p.title, plan: p.plan, finder: p.finder, who: firstSentence(p.sections.find((s) => s.title === "Who")?.body ?? "") }))}
+        groups={kit.playbooks.map((p) => ({ id: p.id, title: p.title, plan: p.plan, finder: p.finder, who: firstSentence(p.sections.find((s) => s.title === "Who")?.body ?? ""), label: titleCase(p.title), pain: pitch(p).today[0] ?? "", picture: sitePictures(p.id).desktop }))}
         guides={kit.guides}
         context={kit.context}
         wholesalePercent={kit.wholesalePercent}

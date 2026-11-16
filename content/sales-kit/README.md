@@ -23,3 +23,11 @@ What the dashboard's Sell page shows sellers and resellers: one playbook per cus
 - `guides/onboarding.md`: from yes to a live site.
 
 Each playbook has the same parts in the same order, so the Sell page can show them as tabs: Who, Where to find them, What to lead with, Offer, Outreach (emails, texts, social), Objections, Demo.
+
+"What to lead with" starts with three labelled lines that the offer sheet, the pitch deck and the group page read:
+
+- `**Headline:**` the outcome in one line, the sheet's and the deck's headline.
+- `**Today:**` what the group deals with today, separated by semicolons.
+- `**Setup includes:**` (optional) the one setup job this group gets, shown first under What's Included.
+
+The Show items under it are written to the prospect ("your", "you"), since the sheet and deck speak to them.
