@@ -1,5 +1,5 @@
 // The demo websites the /demo page opens: the AnyPress theme's demos (demo/<kit>/build.php and
-// demo/<kit>/<business>/build.php in hamchowderr/anypress-theme), each built on WordPress Playground in the visitor's
+// demo/<kit>/<business>/build.php in otaku-solutions/anypress-theme), each built on WordPress Playground in the visitor's
 // own browser. Nothing is made on the server, and a visitor's changes vanish when they close the tab.
 
 import demoPhotos from "./demo-photos.json";
@@ -21,7 +21,7 @@ const ZIPS = "https://api.anypress.io/branding/demo-files";
 const THEME_ZIP = `${ZIPS}/anypress-theme-${THEME_TAG}.zip`;
 const BLOCKS_ZIP = `${ZIPS}/anypress-blocks-${BLOCKS_TAG}.zip`;
 /** jsDelivr answers any site, so Playground downloads these files directly, without its proxy or its git add-on. */
-const themeFile = (path: string) => `https://cdn.jsdelivr.net/gh/hamchowderr/anypress-theme@${THEME_TAG}/${path}`;
+const themeFile = (path: string) => `https://cdn.jsdelivr.net/gh/otaku-solutions/anypress-theme@${THEME_TAG}/${path}`;
 const THEME_DIR = "/wordpress/wp-content/themes/anypress";
 
 export type Demo = {

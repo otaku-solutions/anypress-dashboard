@@ -1,6 +1,6 @@
 # WaaS Dashboard
 
-The admin dashboard for the [WaaS provisioning API](https://github.com/hamchowderr/waas-provisioning-api): one place to see and manage every customer website the API runs, across all your storefronts. It is the dashboard behind [AnyPress](https://anypress.io) and is open source under GPL-3.0.
+The admin dashboard for the [WaaS provisioning API](https://github.com/otaku-solutions/anypress-api): one place to see and manage every customer website the API runs, across all your storefronts. It is the dashboard behind [AnyPress](https://anypress.io) and is open source under GPL-3.0.
 
 ![Overview](docs/screenshots/1-overview.png)
 
@@ -24,13 +24,13 @@ The storefront switcher in the header narrows every page to one storefront. Susp
 ## Who signs in
 
 - **Platform admins** are listed by email address in `ALLOWED_ADMIN_EMAILS` (or by GitHub login in `ALLOWED_GITHUB_LOGINS`), and they see every storefront.
-- **A storefront's own people** (a seller's or reseller's team) sign in with a link emailed to them, or with GitHub or Google when those are turned on. They see only their own storefront: its stores, backups, activity log, templates, plugins, API keys, webhooks and API log. Owners and admins can make changes, and members can only look. The platform admin invites a storefront's first owner from its Team page, and from then on its owners and admins invite the rest (the API's [accounts guide](https://github.com/hamchowderr/waas-provisioning-api/blob/main/docs/accounts.md)).
+- **A storefront's own people** (a seller's or reseller's team) sign in with a link emailed to them, or with GitHub or Google when those are turned on. They see only their own storefront: its stores, backups, activity log, templates, plugins, API keys, webhooks and API log. Owners and admins can make changes, and members can only look. The platform admin invites a storefront's first owner from its Team page, and from then on its owners and admins invite the rest (the API's [accounts guide](https://github.com/otaku-solutions/anypress-api/blob/main/docs/accounts.md)).
 
 Sign-in runs on the provisioning API (Better Auth). The dashboard passes `/api/auth/*` through to it, so the session cookie belongs to the dashboard alone. The API checks every request and narrows what a storefront's people see. The list of admins is checked on every request, so removing a login locks it out at once.
 
 ## Set it up
 
-You need a running provisioning API with `ADMIN_TOKEN` set and sign-in turned on (`AUTH_URL` set to this dashboard's address, `AUTH_SECRET`, and the GitHub App's ID and secret). The API's [accounts guide](https://github.com/hamchowderr/waas-provisioning-api/blob/main/docs/accounts.md) lists them.
+You need a running provisioning API with `ADMIN_TOKEN` set and sign-in turned on (`AUTH_URL` set to this dashboard's address, `AUTH_SECRET`, and the GitHub App's ID and secret). The API's [accounts guide](https://github.com/otaku-solutions/anypress-api/blob/main/docs/accounts.md) lists them.
 
 1. **Create a GitHub App for sign-in.** GitHub → Settings → Developer settings → GitHub Apps → New GitHub App. Set the callback URL to `https://<your dashboard>/api/auth/callback/github` (a GitHub App can hold several, so add `http://localhost:3000/api/auth/callback/github` too for local work). Turn the webhook off. Under account permissions, give it **Email addresses: read-only**. Generate a client secret, then put the Client ID and secret on the API, not here.
 2. **Deploy.** Vercel works out of the box (import the repo). Any host with Node 22 or newer works too: `npm ci && npm run build && npm start`.
@@ -49,7 +49,7 @@ You need a running provisioning API with `ADMIN_TOKEN` set and sign-in turned on
 
 `.env.example` lists them.
 
-To run the whole platform yourself (API, storefront and dashboard), see the API's [self-hosting guide](https://github.com/hamchowderr/waas-provisioning-api/blob/main/docs/self-hosting.md).
+To run the whole platform yourself (API, storefront and dashboard), see the API's [self-hosting guide](https://github.com/otaku-solutions/anypress-api/blob/main/docs/self-hosting.md).
 
 ## Development
 
