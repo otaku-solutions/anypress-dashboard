@@ -102,7 +102,9 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
   const showChecklist = !!storefrontSetup && storefrontSetup.done < storefrontSetup.total;
   const stuck = isAdmin && !product && setup ? [...setup.resellers, ...setup.storefronts].filter((s) => s.stuck) : [];
   const hasSetup = showChecklist || (!!resellerSetup && resellerSetup.done < resellerSetup.total) || (isAdmin && !product && !!setup);
-  const failedJobs = jobs.items.filter((job) => job.state === "failed");
+  // Backups run by themselves every night and the team is alerted when one fails, so customers only see other tasks.
+  const failedJobs = jobs.items.filter((job) => job.state === "failed" && (isAdmin || job.type !== "tenant.backup"));
+  const failedBackups = isAdmin ? overview.backups.failed : 0;
   // Retrying is a change, so only for someone who may change things.
   const canRetry = !!viewer && canChange(viewer);
   const { health } = overview;
@@ -159,12 +161,12 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
       href: "/stores?state=failed"
     });
   }
-  if (overview.backups.failed > 0) {
+  if (failedBackups > 0) {
     todos.push({
       key: "backups",
       tone: "critical",
       icon: ArchiveIcon,
-      title: `${plural(overview.backups.failed, "backup")} failed`,
+      title: `${plural(failedBackups, "backup")} failed`,
       detail: "Open Backups to see which store and why.",
       action: "See backups",
       href: "/backups"
@@ -188,7 +190,7 @@ export default async function OverviewPage({ searchParams }: { searchParams: Pro
 
   // The same count as the "Needs you" list: failed tasks, or failed stores when no task says why, and failed backups.
   const storeProblems = failedJobs.length > 0 ? failedJobs.length : t.failed;
-  const problems = storeProblems + overview.backups.failed;
+  const problems = storeProblems + failedBackups;
   const building = t.pending + t.removing;
   const tiles: Stat[] = [
     {
