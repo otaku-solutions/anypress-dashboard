@@ -20,8 +20,11 @@ const BLOCKS_TAG = "v0.4.3";
 const ZIPS = "https://api.anypress.io/branding/demo-files";
 const THEME_ZIP = `${ZIPS}/anypress-theme-${THEME_TAG}.zip`;
 const BLOCKS_ZIP = `${ZIPS}/anypress-blocks-${BLOCKS_TAG}.zip`;
-/** jsDelivr answers any site, so Playground downloads these files directly, without its proxy or its git add-on. */
-const themeFile = (path: string) => `https://cdn.jsdelivr.net/gh/otaku-solutions/anypress-theme@${THEME_TAG}/${path}`;
+/**
+ * GitHub's raw file address answers any site, so Playground downloads these files directly, without its proxy or its
+ * git add-on. Not jsDelivr: it refuses the theme's repository, which is over its 50 MB package limit.
+ */
+const themeFile = (path: string) => `https://raw.githubusercontent.com/otaku-solutions/anypress-theme/${THEME_TAG}/${path}`;
 const THEME_DIR = "/wordpress/wp-content/themes/anypress";
 
 export type Demo = {

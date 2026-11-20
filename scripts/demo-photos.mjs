@@ -10,7 +10,7 @@ const tag = source.match(/THEME_TAG = "([^"]+)"/)[1];
 const ids = [...source.matchAll(/^\s+id: "([^"]+)",$/gm)].map((m) => m[1]);
 const photos = {};
 for (const id of ids) {
-  const url = `https://cdn.jsdelivr.net/gh/otaku-solutions/anypress-theme@${tag}/demo/${id}/photos.json`;
+  const url = `https://raw.githubusercontent.com/otaku-solutions/anypress-theme/${tag}/demo/${id}/photos.json`;
   const response = await fetch(url);
   if (!response.ok) throw new Error(`${url}: ${response.status}`);
   photos[id] = Object.keys((await response.json()).files).sort();

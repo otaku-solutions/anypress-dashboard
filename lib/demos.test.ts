@@ -6,7 +6,7 @@ import { DEMOS, THEME_TAG, demoBlueprint, demoFiles, findDemo, playgroundUrl } f
 describe("demo websites", () => {
   it("lists each demo once, with its own photo from the pinned theme release", () => {
     expect(new Set(DEMOS.map((d) => d.id)).size).toBe(DEMOS.length);
-    for (const demo of DEMOS) expect(demo.photo).toContain(`anypress-theme@${THEME_TAG}/demo/${demo.id}/photos/`);
+    for (const demo of DEMOS) expect(demo.photo).toContain(`anypress-theme/${THEME_TAG}/demo/${demo.id}/photos/`);
   });
 
   it("builds each demo from its own build script, with captions instead of repository addresses", () => {
@@ -24,7 +24,7 @@ describe("demo websites", () => {
       const blueprint = JSON.stringify(steps);
       expect(steps[0]).toMatchObject({ step: "installTheme", themeData: { resource: "url", url: `https://api.anypress.io/branding/demo-files/anypress-theme-${THEME_TAG}.zip` } });
       expect(blueprint).not.toContain("git:directory");
-      for (const file of demoFiles(demo)) expect(blueprint).toContain(`anypress-theme@${THEME_TAG}/${file}`);
+      for (const file of demoFiles(demo)) expect(blueprint).toContain(`anypress-theme/${THEME_TAG}/${file}`);
       expect(demoFiles(demo).filter((f) => f.startsWith(`demo/${demo.id}/photos/`)).length).toBeGreaterThan(5);
     }
     expect(demoFiles(findDemo("ridge/spotless-nest")!)).toContain("demo/ridge/spotless-nest/swap.json");
