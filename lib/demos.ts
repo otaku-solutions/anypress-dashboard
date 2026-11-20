@@ -135,14 +135,14 @@ export const DEMOS: Demo[] = [
 export const findDemo = (id: string | null | undefined): Demo | undefined => DEMOS.find((d) => d.id === id);
 
 /**
- * The files a demo's build reads: the shared builder, the demo's build script and JSON, and its photos (listed in
+ * The files a demo's build reads: the shared builder (trades.php and the lib.php it requires), the demo's build script and JSON, and its photos (listed in
  * demo-photos.json). A business on a kit (demo/<kit>/<business>) also has swap.json, the kit's words swapped for its own.
  */
 export function demoFiles(demo: Demo): string[] {
   const own = ["build.php", "photos.json", "services.json", "towns.json", "posts.json"];
   if (demo.id.includes("/")) own.push("swap.json");
   const photos = (demoPhotos.photos as Record<string, string[]>)[demo.id] ?? [];
-  return ["demo/trades.php", ...own.map((file) => `demo/${demo.id}/${file}`), ...photos.map((file) => `demo/${demo.id}/photos/${file}`)];
+  return ["demo/lib.php", "demo/trades.php", ...own.map((file) => `demo/${demo.id}/${file}`), ...photos.map((file) => `demo/${demo.id}/photos/${file}`)];
 }
 
 /**

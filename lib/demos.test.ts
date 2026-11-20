@@ -29,6 +29,8 @@ describe("demo websites", () => {
     }
     expect(demoFiles(findDemo("ridge/spotless-nest")!)).toContain("demo/ridge/spotless-nest/swap.json");
     expect(demoFiles(findDemo("ridge")!)).not.toContain("demo/ridge/swap.json");
+    // trades.php requires lib.php (since theme 0.23.0); without it every demo's build stops.
+    expect(demoFiles(findDemo("ridge")!).slice(0, 2)).toEqual(["demo/lib.php", "demo/trades.php"]);
   });
 
   it("has the photo list for the pinned theme release (run node scripts/demo-photos.mjs after moving it)", () => {
