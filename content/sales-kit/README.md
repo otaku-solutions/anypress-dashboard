@@ -30,3 +30,11 @@ The Guides tab shows the four guides as one path, in the order a sale happens, a
 - `onboarding.md`: each section is a step with a `**When:**` line and a checklist; a list of `**Site type:**` items shows one site type at a time. A section without `**When:**` is the closing tip.
 
 Each playbook has the same parts in the same order, so the Sell page can show them as tabs: Who, Where to find them, What to lead with, Offer, Outreach (emails, texts, social), Objections, Demo.
+
+"What to lead with" starts with three labelled lines that the offer sheet, the pitch deck and the group page read:
+
+- `**Headline:**` the outcome in one line, the sheet's and the deck's headline.
+- `**Today:**` what the group deals with today, separated by semicolons.
+- `**Setup includes:**` (optional) the one setup job this group gets, shown first under What's Included.
+
+The Show items under it are written to the prospect ("your", "you"), since the sheet and deck speak to them.

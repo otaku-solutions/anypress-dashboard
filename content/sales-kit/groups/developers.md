@@ -21,6 +21,10 @@ The best prospects have customers asking "can you do my website too?" and a team
 
 ## What to lead with
 
+**Headline:** A website for every customer, made the moment they sign up.
+
+**Today:** Telling customers no when they ask for a website; sending them somewhere else; losing part of the relationship.
+
 **Their pain:** customers want a website and they have to say no, or send them somewhere else and lose part of the relationship.
 
 **Your answer:** "Offer every customer a website from inside your own product. A new customer signs up, and their site is made automatically, under your brand."

@@ -21,12 +21,16 @@ The best prospects have 5 to 50 locations and a marketing lead who is tired of e
 
 ## What to lead with
 
+**Headline:** Every location online, on brand. We set it all up.
+
+**Today:** A different site for every location, or none; bookings in different tools; the brand losing control of how it looks.
+
 **Their pain:** every location with a different site or none, bookings in different tools, the brand losing control of how it looks.
 
 **Your answer:** "The same site for every location, each with its own bookings and domain, managed from one place."
 
 Three things to show:
-1. A new location's site made in minutes from the brand's template.
+1. A new location's site made in minutes from your brand's design.
 2. Bookings per location, with its own staff and hours.
 3. One monthly bill for all locations.
 
