@@ -1,0 +1,33 @@
+# The dashboard (app.anypress.io, Coolify app anypress-dashboard). Builds its image on GitHub and starts it to check it
+# answers; on main it also publishes the image and moves release/anypress-dashboard (image.yml).
+name: Dashboard image
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - '.beads/**'
+  push:
+    branches: [main]
+    paths-ignore:
+      - '**.md'
+      - '.beads/**'
+  workflow_dispatch:
+
+concurrency:
+  group: anypress-dashboard-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  image:
+    uses: ./.github/workflows/image.yml
+    with:
+      image: anypress-dashboard
+      context: .
+      file: Dockerfile
+      check-port: '3000'
+      check-path: /
