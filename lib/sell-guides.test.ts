@@ -29,6 +29,9 @@ describe("the Guides tab reads each guide by its shape", () => {
       expect(s.say, s.name).not.toMatch(/^"|"$/);
       expect(s.steps.length, s.name).toBeGreaterThan(0);
       expect(s.tip, s.name).not.toBe("");
+      expect(s.tip, s.name).not.toMatch(/Practice|\*\*You:/);
+      expect(s.practice.some((l) => l.who === "you"), s.name).toBe(true);
+      expect(s.practice.some((l) => l.who === "they"), s.name).toBe(true);
     }
     expect(call.checklists.map((c) => c.title)).toEqual(["Before the call", "After the call"]);
   });

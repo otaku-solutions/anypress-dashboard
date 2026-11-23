@@ -6,6 +6,7 @@ import { CalendarDaysIcon, CheckIcon, ChevronDownIcon, DownloadIcon, ExternalLin
 import { useSellPrices } from "@/hooks/use-sell-prices";
 import { PLAN_NAMES, dollars, fill, keep, playbookMarkdown, type KitDemo, type KitContext, type Pitch, type Playbook, type Step } from "@/lib/sales-kit";
 import { Inline, KitMarkdown } from "@/components/admin/kit-markdown";
+import { callScript } from "@/lib/sell-guides";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardIcon } from "@/components/ui/card";
@@ -282,14 +283,14 @@ function StepCard({ step, ctx, callScript, defaultOpen }: { step: Step; ctx: Kit
 
 /** The call script's steps, short, for the call step. */
 function CallOutline({ script, ctx }: { script: string; ctx: KitContext }) {
-  const parts = [...script.matchAll(/^## (\d\..+)$/gm)].map((m) => m[1]!);
+  const parts = callScript(script).stages.map((s) => s.name);
   return (
     <div className="space-y-2">
       <p>If they haven&apos;t replied, call to book a 15-minute demo. The full script is under Guides.</p>
       <ol className="text-muted-foreground list-inside list-decimal space-y-0.5">
         {parts.map((p) => (
           <li key={p}>
-            <Inline text={p.replace(/^\d\.\s*/, "")} ctx={ctx} />
+            <Inline text={p} ctx={ctx} />
           </li>
         ))}
       </ol>

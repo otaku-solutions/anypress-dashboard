@@ -47,8 +47,19 @@ export function tiles(body: string): { label: string; text: string }[] | null {
   return items.map((m) => ({ label: m![1]!, text: m![2]! }));
 }
 
-/** One part of the call: what to say, what to do, a tip, and its minutes. */
-export type CallStage = { name: string; minutes: number; say: string; steps: string[]; tip: string };
+/** One line of a practice call: you, the prospect, or a note on what happens. */
+export type PracticeLine = { who: "you" | "they" | "note"; text: string };
+
+/** One part of the call: what to say, what to do, a tip, its minutes, and how it can go. */
+export type CallStage = { name: string; minutes: number; say: string; steps: string[]; tip: string; practice: PracticeLine[] };
+
+/** A part's `### Practice` list of `**You:**`, `**They:**` and `**Note:**` lines. */
+function practiceLines(body: string): PracticeLine[] {
+  return listItems(body).flatMap((item) => {
+    const m = /^\*\*(You|They|Note):\*\*\s*(.+)$/.exec(item);
+    return m ? [{ who: m[1]!.toLowerCase() as PracticeLine["who"], text: m[2]!.trim() }] : [];
+  });
+}
 
 /** The call script: its timed parts, and the checklists before and after. */
 export function callScript(body: string): { lead: string; stages: CallStage[]; checklists: { title: string; items: string[] }[] } {
@@ -61,14 +72,16 @@ export function callScript(body: string): { lead: string; stages: CallStage[]; c
       checklists.push({ title: s.title, items: listItems(s.body) });
       continue;
     }
-    const prose = paragraphs(s.body);
+    const [main = "", practice = ""] = s.body.split(/^### Practice\s*$/m);
+    const prose = paragraphs(main);
     const say = prose.find((p) => /^["“]/.test(p)) ?? "";
     stages.push({
       name: timed[1]!,
       minutes: Number(timed[2]),
       say: say.replace(/^["“]|["”]$/g, ""),
-      steps: listItems(s.body),
-      tip: prose.filter((p) => p !== say).join(" ")
+      steps: listItems(main),
+      tip: prose.filter((p) => p !== say).join(" "),
+      practice: practiceLines(practice)
     });
   }
   return { lead, stages, checklists };

@@ -3,7 +3,7 @@ id: objections
 title: Answering common objections
 ---
 
-Listen first, ask one question back, then answer in a sentence or two. Each group's own objections are in its playbook under Who To Sell To.
+Listen, ask one question back, then answer in a sentence or two. Each group's own objections are in its playbook.
 
 ## "It's too expensive."
 
