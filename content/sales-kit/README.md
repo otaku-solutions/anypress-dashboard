@@ -25,7 +25,7 @@ What the dashboard's Sell page shows sellers and resellers: one playbook per cus
 The Guides tab shows the four guides as one path, in the order a sale happens, and reads each guide's `##` sections by their shape (`lib/sell-guides.ts`), so keep to it:
 
 - Every guide: the text before the first `##` is the guide's one-line lead. A `>` paragraph shows as a notice. A list whose items all start with `**Label:**` shows as tiles.
-- `call-script.md`: a section named `Name (N minutes)` is one part of the call: a line in quotes to say, a list of things to do, then one tip. Sections without minutes (Before the call, After the call) are checklists.
+- `call-script.md`: a section named `Name (N minutes)` is one part of the call: a line in quotes to say, a list of things to do, then one tip. Under it, a `### Practice` list of `**You:**`, `**They:**` and `**Note:**` lines shows how that part can go when a seller practises the call. Sections without minutes (Before the call, After the call) are checklists.
 - `objections.md`: each section is what the prospect says, in quotes, with `**Topic:**`, `**Ask back:**` and `**Then say:**` lines.
 - `onboarding.md`: each section is a step with a `**When:**` line and a checklist; a list of `**Site type:**` items shows one site type at a time. A section without `**When:**` is the closing tip.
 

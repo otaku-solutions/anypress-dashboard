@@ -3,7 +3,7 @@ id: pricing
 title: What to charge
 ---
 
-What you pay for each site, what to charge, and what you keep. This guide is for you, not your customers. Set your own prices here or on Your Prices, and every playbook, message, offer sheet and deck uses them.
+What you pay for each site, what to charge, and what you keep. Only you see this guide.
 
 ## Your cost per site
 

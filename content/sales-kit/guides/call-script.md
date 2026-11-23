@@ -3,7 +3,7 @@ id: call-script
 title: The 15-minute call
 ---
 
-A 15-minute call to find out whether you can help, show the demo and agree a next step. Book a second call if they want more.
+A 15-minute call: see if you can help, show the demo, agree a next step.
 
 ## Before the call
 
@@ -20,6 +20,11 @@ A 15-minute call to find out whether you can help, show the demo and agree a nex
 
 Keep it short. The point is to get them talking.
 
+### Practice
+
+- **You:** Thanks for making time, {{prospect}}. I've got 15 minutes: a few questions about {{business}}, a quick example, then we agree what's next. Sound good?
+- **They:** Sounds good. Go ahead.
+
 ## Ask (5 minutes)
 
 "How do customers find you today?"
@@ -32,6 +37,20 @@ Keep it short. The point is to get them talking.
 
 Ask, then listen. Write down their words; you'll use them in the follow-up.
 
+### Practice
+
+- **You:** How do customers find you today?
+- **They:** Instagram, mostly. And word of mouth.
+- **You:** What does your website do for you right now?
+- **They:** Not much. People still phone to book.
+- **You:** What do you pay for to run things online?
+- **They:** The site builder, a booking app and email. About $90 a month.
+- **You:** Who updates the site?
+- **They:** Me, when I get a spare evening. So, never.
+- **You:** If you could fix one thing, what would it be?
+- **They:** Stop the phone ringing all day with bookings.
+- **Note:** You write down: phone bookings, three bills, no time to update.
+
 ## Show (5 minutes)
 
 "You said bookings come in by phone. Here's what it looks like when people book online."
@@ -41,6 +60,15 @@ Ask, then listen. Write down their words; you'll use them in the follow-up.
 - Use their words, not feature names.
 
 Three things they asked about beat ten things they didn't.
+
+### Practice
+
+- **Note:** You share your screen with the demo for their group.
+- **You:** You said bookings come in by phone. Here a customer picks a time and pays a deposit.
+- **They:** Oh, they can book it themselves?
+- **You:** They can, and they get a reminder the day before. No more phone tag.
+- **You:** And you change your opening hours here, from your phone.
+- **They:** That I would actually use.
 
 ## Price (2 minutes)
 
@@ -52,6 +80,12 @@ Three things they asked about beat ten things they didn't.
 
 The quiet after the price is normal. Wait for their answer.
 
+### Practice
+
+- **You:** For {{business}}, I'd suggest the {{plan}} plan. It's {{price}} a month, with hosting, updates, backups and support from me.
+- **Note:** You stop talking and wait.
+- **They:** That's about what I pay now for three separate things.
+
 ## Next step (2 minutes)
 
 "Shall I set up your site with your logo and details so you can see it for real?"
@@ -60,6 +94,13 @@ The quiet after the price is normal. Wait for their answer.
 - Or, if they're ready: "I'll send you the sign-up link now: {{shop}}."
 
 Leave with one agreed next step and a date.
+
+### Practice
+
+- **You:** Shall I set up your site with your logo and details so you can see it for real?
+- **They:** Yes. Can we look at it Thursday?
+- **You:** Thursday it is. I'll email you a summary today.
+- **Note:** One next step, with a date. That's the call.
 
 ## After the call
 
