@@ -1546,7 +1546,8 @@ export class FixtureAdminApi implements AdminApi {
       resellerId: resellerOf.get(p.id) ?? null,
       resellerName: resellers.find((r) => r.id === resellerOf.get(p.id))?.name ?? null,
       highlevelAgency: highlevelAgencies.has(p.id),
-      cleanDashboard: !plainDashboards.has(p.id)
+      cleanDashboard: !plainDashboards.has(p.id),
+      storefrontTemplate: false
     }));
   }
 

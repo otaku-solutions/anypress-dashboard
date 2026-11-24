@@ -16,7 +16,9 @@ export const metadata: Metadata = { title: "Storefronts" };
 export default async function StorefrontsPage() {
   if (!(await getViewer())?.isAdmin) notFound();
   const api = getAdminApi();
-  const [products, setup] = await Promise.all([api.products(), api.setup().catch(() => null)]);
+  const [all, setup] = await Promise.all([api.products(), api.setup().catch(() => null)]);
+  // The seller storefront template is a template, not a shop: it is on Templates.
+  const products = all.filter((p) => !p.storefrontTemplate);
   const shops = await Promise.all(products.map((p) => api.storefront(p.id).catch(() => null)));
   const setupOf = new Map(setup?.storefronts.map((s) => [s.productId, s]));
   const rows: StorefrontRow[] = products.map((p, i) => ({

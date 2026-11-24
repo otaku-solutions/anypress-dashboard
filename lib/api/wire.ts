@@ -252,6 +252,8 @@ export type WireProduct = {
   highlevelAgency?: boolean;
   /** Its stores show their own wp-admin Dashboard home. Absent from an older API (on). */
   cleanDashboard?: boolean;
+  /** The seller storefront template's product: a template, not a shop. Absent from an older API. */
+  storefrontTemplate?: boolean;
   dateCreated: string;
 };
 

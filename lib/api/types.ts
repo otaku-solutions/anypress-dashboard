@@ -353,6 +353,8 @@ export type ProductDetail = Product & {
   highlevelAgency: boolean;
   /** Its stores show their own wp-admin Dashboard home instead of WordPress's default boxes. */
   cleanDashboard: boolean;
+  /** The seller storefront template's product: its versions build the ready-made storefronts. A template, not a shop. */
+  storefrontTemplate: boolean;
 };
 
 /** A partner that sells stores from one or more storefronts and pays a wholesale price for each live store. */
