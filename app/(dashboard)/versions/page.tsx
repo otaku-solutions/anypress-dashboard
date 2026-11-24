@@ -57,7 +57,9 @@ export default async function VersionsPage({ searchParams }: { searchParams: Pro
   // These pages are about one storefront. With none picked, open the first rather than showing only a picker;
   // the switcher at the top moves between them.
   if (!product) {
-    if (products[0]) redirect(`/versions?product=${products[0].id}${tab ? `&tab=${encodeURIComponent(tab)}` : ""}`);
+    // With no shop yet, the platform admin still reaches the seller storefront template.
+    const first = products[0] ?? (isAdmin ? storefrontTemplate : undefined);
+    if (first) redirect(`/versions?product=${first.id}${tab ? `&tab=${encodeURIComponent(tab)}` : ""}`);
     return (
       <div className="space-y-4 lg:space-y-6">
         <PageHeader title="Templates" />
