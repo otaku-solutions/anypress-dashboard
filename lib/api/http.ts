@@ -296,7 +296,8 @@ export class HttpAdminApi implements AdminApi {
       resellerId: p.resellerId ?? null,
       resellerName: p.resellerName ?? null,
       highlevelAgency: p.highlevelAgency ?? false,
-      cleanDashboard: p.cleanDashboard ?? true
+      cleanDashboard: p.cleanDashboard ?? true,
+      storefrontTemplate: p.storefrontTemplate ?? false
     }));
   }
 
