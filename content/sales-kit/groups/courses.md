@@ -21,13 +21,19 @@ The best prospects already have an audience and pay for two or more tools today 
 
 ## What to lead with
 
+**Headline:** Your courses, community and emails in one place. We set it all up.
+
+**Today:** Several monthly tools; a platform's cut or branding on your course; students and members scattered across apps.
+
+**Setup includes:** Your first course moved in.
+
 **Their pain:** paying several monthly tools, a platform's cut or branding on their course, students and members scattered across apps.
 
 **Your answer:** "Your courses, community and email list on one site with your name on it, for one monthly price."
 
 Three things to show:
 1. Courses with lessons, quizzes and progress tracking.
-2. A members' community on their own site instead of a separate app.
+2. A members' community on your own site instead of a separate app.
 3. Email to students and leads from the same place.
 
 ## Offer

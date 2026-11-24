@@ -14,7 +14,19 @@ import { ProspectFinder } from "./prospect-finder";
 import { ProspectList } from "./prospect-list";
 import { Guides } from "./guides";
 
-export type GroupSummary = { id: GroupId; title: string; plan: Plan; who: string; finder: string[] };
+export type GroupSummary = {
+  id: GroupId;
+  title: string;
+  /** The title in Title Case, for the card. */
+  label: string;
+  plan: Plan;
+  who: string;
+  /** The first thing they put up with today, the card's one line. */
+  pain: string;
+  /** A full-page picture of the site they would get. */
+  picture: string;
+  finder: string[];
+};
 
 export function SellHome({
   productId,
@@ -46,10 +58,10 @@ export function SellHome({
     <Tabs value={tab} onValueChange={setTab} className="gap-4 lg:gap-6">
       <div className="-mx-4 overflow-x-auto px-4 sm:mx-0 sm:px-0">
       <TabsList className="max-w-full justify-start overflow-x-auto overflow-y-hidden [scrollbar-width:none] max-sm:[mask-image:linear-gradient(to_right,black_calc(100%-2.5rem),transparent)] [&::-webkit-scrollbar]:hidden">
-        <TabsTrigger value="groups">Who to sell to</TabsTrigger>
-        <TabsTrigger value="find">Find prospects</TabsTrigger>
-        <TabsTrigger value="prospects">Your prospects</TabsTrigger>
-        <TabsTrigger value="prices">Your prices</TabsTrigger>
+        <TabsTrigger value="groups">Who To Sell To</TabsTrigger>
+        <TabsTrigger value="find">Find Prospects</TabsTrigger>
+        <TabsTrigger value="prospects">Your Prospects</TabsTrigger>
+        <TabsTrigger value="prices">Your Prices</TabsTrigger>
         <TabsTrigger value="guides">Guides</TabsTrigger>
       </TabsList>
       </div>
@@ -60,14 +72,20 @@ export function SellHome({
             <Link
               key={g.id}
               href={`/sell/${g.id}?product=${encodeURIComponent(productId)}`}
-              className="group/card bg-card hover:border-foreground/20 focus-visible:ring-ring/50 flex flex-col rounded-[1.125rem] border p-4 transition-colors outline-none focus-visible:ring-3"
+              className="group/card bg-card hover:border-foreground/20 focus-visible:ring-ring/50 flex flex-col overflow-hidden rounded-[1.125rem] border transition-colors outline-none focus-visible:ring-3"
             >
-              <div className="flex items-center gap-3">
-                <GroupIcon id={g.id} />
-                <h2 className="text-sm leading-snug font-semibold">{g.title}</h2>
+              <div className="bg-muted relative aspect-[16/7] overflow-hidden border-b">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={g.picture} alt="" loading="lazy" className="absolute inset-x-[6%] top-[10%] w-[88%] rounded-t-md shadow-sm transition-transform duration-300 group-hover/card:-translate-y-1" />
               </div>
-              <p className="text-muted-foreground mt-3 pb-4 text-sm text-pretty">{g.who}</p>
-              <div className="mt-auto flex items-end justify-between gap-2 border-t pt-3 ">
+              <div className="flex flex-1 flex-col gap-1 p-4 pb-3">
+                <div className="flex items-center gap-2">
+                  <GroupIcon id={g.id} className="size-6" />
+                  <h2 className="text-sm leading-snug font-semibold">{g.label}</h2>
+                </div>
+                <p className="text-muted-foreground text-sm text-pretty">{g.pain}.</p>
+              </div>
+              <div className="mt-auto flex items-end justify-between gap-2 border-t px-4 py-3">
                 <div>
                   <p className="text-muted-foreground text-xs">{PLAN_NAMES[g.plan]}</p>
                   <p className="text-sm font-medium tabular-nums">

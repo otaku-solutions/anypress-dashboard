@@ -23,14 +23,20 @@ The best prospects already have a merchant account that allows their products, o
 
 ## What to lead with
 
+**Headline:** Your own store and your own payment account. We set it all up.
+
+**Today:** A platform that can close your store without warning; a payment account that can be frozen; nowhere to move quickly.
+
+**Setup includes:** Your products moved in and your payment account connected.
+
 **Their pain:** platforms that close stores without warning, payment accounts frozen, nowhere to move quickly.
 
 **Your answer:** "A store on your own domain where you bring your own payment account. Your site doesn't depend on a big platform's product rules."
 
 Three things to show:
-1. Checkout with the payment account they already have, including card processors that accept their industry.
+1. Checkout with the payment account you already have, including card processors that accept your industry.
 2. Age check and terms pages that can be added to the store.
-3. Their customer list stays theirs, with follow-up emails ready.
+3. Your customer list stays yours, with follow-up emails ready.
 
 ## Offer
 

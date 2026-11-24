@@ -21,12 +21,16 @@ The best prospects are growing, run several groups or ministries, and want onlin
 
 ## What to lead with
 
+**Headline:** Giving, events and your weekly email in one place. We set it all up.
+
+**Today:** A website nobody has time to update; giving and events in separate tools; a weekly email that takes hours.
+
 **Their pain:** a website nobody has time to update, giving and events in separate tools, a weekly email that takes hours.
 
 **Your answer:** "Events, online giving, small groups and your weekly email on one simple site, and nobody at the church has to run the tech."
 
 Three things to show:
-1. Online giving, one-time and recurring, into the church's own account.
+1. Online giving, one-time and recurring, into your church's own account.
 2. Events and small groups with sign-up.
 3. Sermons and a weekly email from the same place.
 

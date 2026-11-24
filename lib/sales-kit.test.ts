@@ -1,8 +1,8 @@
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { GROUP_IDS, PARTS, PLANS, SUGGESTED_PRICES, fill, pitch, campaign, outreachEmails, customerFacingShop, demosFor, fillParts, messages, parseGuide, parsePlaybook, playbookMarkdown, type KitContext } from "./sales-kit";
+import { GROUP_IDS, PARTS, PLANS, SUGGESTED_PRICES, fill, pitch, campaign, outreachEmails, customerFacingShop, demosFor, sitePictures, textOn, fillParts, messages, parseGuide, parsePlaybook, playbookMarkdown, type KitContext } from "./sales-kit";
 
 const root = path.join(__dirname, "..", "content", "sales-kit");
 const read = (...p: string[]) => readFileSync(path.join(root, ...p), "utf8");
@@ -103,6 +103,30 @@ describe("pitch", () => {
       expect(show, p.id).toHaveLength(3);
     }
   });
+
+  it("gives every playbook an outcome headline and what they put up with today", () => {
+    for (const p of playbooks) {
+      const { headline, today } = pitch(p);
+      expect(headline.length, p.id).toBeGreaterThan(20);
+      expect(today.length, p.id).toBeGreaterThanOrEqual(3);
+      for (const t of today) expect(t, p.id).toMatch(/^[A-Z]/);
+    }
+    expect(pitch(playbooks.find((p) => p.id === "shops")!).setup).toBe("Your products moved in from Etsy or another shop");
+    expect(pitch(playbooks.find((p) => p.id === "churches")!).setup).toBeNull();
+  });
+});
+
+describe("sitePictures", () => {
+  it("shows the prospect's site type when known, else the group's", () => {
+    expect(sitePictures("shops").desktop).toBe("/sell/sites/store-desktop.webp");
+    expect(sitePictures("shops", "community").phone).toBe("/sell/sites/courses-phone.webp");
+    expect(sitePictures("chambers", "nope").desktop).toBe("/sell/sites/everything-desktop.webp");
+    expect(sitePictures("chambers", "constructor").desktop).toBe("/sell/sites/everything-desktop.webp");
+  });
+
+  it("has both pictures for every group", () => {
+    for (const g of GROUP_IDS) for (const file of Object.values(sitePictures(g))) expect(existsSync(`public${file}`), file).toBe(true);
+  });
 });
 
 describe("customerFacingShop", () => {
@@ -159,5 +183,14 @@ describe("outreachEmails", () => {
     const { input, blanks } = outreachEmails(shops.title, campaign(shops), { ...ctx, plan: shops.plan });
     expect(input.emails[0]!.subject).toContain("{{contact.first_name}}");
     expect(blanks).toContain("marketplace");
+  });
+});
+
+describe("textOn", () => {
+  it("picks whichever text colour has more contrast", () => {
+    expect(textOn("#0f5c4f")).toBe("#ffffff");
+    expect(textOn("#f4f2ee")).toBe("#141a18");
+    expect(textOn("#999999")).toBe("#141a18");
+    expect(textOn("not a colour")).toBe("#ffffff");
   });
 });

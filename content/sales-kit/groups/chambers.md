@@ -21,6 +21,10 @@ The best prospects have a few hundred members, a small staff, and a board that w
 
 ## What to lead with
 
+**Headline:** Members, events and dues on one site. We set it all up.
+
+**Today:** A directory, event sign-ups and dues in separate tools; an old website nobody wants to touch; members asking "what do I get?".
+
 **Their pain:** a member directory, event sign-ups and dues spread over several tools; an old website nobody wants to touch; members asking "what do I get?"
 
 **Your answer:** "Members, events, dues and a member directory on one site your staff can run, plus a website perk you can offer every member business."

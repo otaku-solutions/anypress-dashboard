@@ -21,14 +21,20 @@ The best prospects already have sales and a following. They feel the marketplace
 
 ## What to lead with
 
+**Headline:** Your own shop. Your customers. We set it all up.
+
+**Today:** A fee on every sale; buyers who belong to the marketplace; rules that change without warning; a shop that looks like everyone else's.
+
+**Setup includes:** Your products moved in from Etsy or another shop.
+
 **Their pain:** marketplace fees on every sale, rules that change, no way to email past buyers, a shop that looks like everyone else's.
 
 **Your answer:** "Your own shop on your own domain, where you keep the customer and the sale. I set it up and look after it; you just sell."
 
 Three things to show:
-1. Checkout with their own payment account, so the money goes straight to them.
-2. Their buyers land in their own email list, with follow-up emails already written.
-3. Products, shipping and discounts they can change themselves.
+1. Checkout with your own payment account, so the money goes straight to you.
+2. Your buyers land in your own email list, with follow-up emails already written.
+3. Products, shipping and discounts you can change yourself.
 
 ## Offer
 

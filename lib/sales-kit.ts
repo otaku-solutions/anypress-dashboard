@@ -287,14 +287,47 @@ export function playbookMarkdown(playbook: Playbook, ctx: KitContext): string {
   ].join("\n\n") + "\n";
 }
 
-/** The pitch from a playbook's "What to lead with": the pain, the one-line answer and the three things to show. */
-export type Pitch = { pain: string; answer: string; show: string[] };
+/**
+ * The pitch from a playbook's "What to lead with": the outcome headline, what they put up with today, the pain, the
+ * one-line answer, the three things to show and what setup includes for this group (when it includes something extra).
+ */
+export type Pitch = { headline: string; today: string[]; setup: string | null; pain: string; answer: string; show: string[] };
 
 export function pitch(playbook: Playbook): Pitch {
   const lead = playbook.sections.find((s) => s.title === "What to lead with")?.body ?? "";
   const field = (name: string) => new RegExp(`\\*\\*${name}:\\*\\*\\s*(.+)`).exec(lead)?.[1]?.trim() ?? "";
   const show = [...lead.matchAll(/^\d+\.\s+(.+)$/gm)].map((m) => m[1]!.trim());
-  return { pain: field("Their pain"), answer: field("Your answer").replace(/^"|"$/g, ""), show };
+  const sentence = (text: string) => text.replace(/^./, (c) => c.toUpperCase()).replace(/\.$/, "");
+  return {
+    headline: field("Headline"),
+    today: field("Today").split(";").map((t) => t.trim()).filter(Boolean).map(sentence),
+    setup: field("Setup includes").replace(/\.$/, "") || null,
+    pain: field("Their pain"),
+    answer: field("Your answer").replace(/^"|"$/g, ""),
+    show
+  };
+}
+
+/** The example site each group's card, sheet and deck show, by site type (public/sell/sites, desktop and phone). */
+const GROUP_SITE: Record<GroupId, SiteExample> = {
+  shops: "store",
+  regulated: "store",
+  courses: "courses",
+  chambers: "everything",
+  churches: "everything",
+  franchises: "bookings",
+  agencies: "website",
+  developers: "website"
+};
+type SiteExample = "website" | "bookings" | "store" | "courses" | "everything";
+
+/** A prospect's site type (the API's names) as the example site that shows it. */
+const SITE_TYPE_EXAMPLE: Record<string, SiteExample> = { website: "website", bookings: "bookings", "online-store": "store", community: "courses", everything: "everything" };
+
+/** Full-page pictures of the example site, desktop and phone: the prospect's site type when known, else the group's. */
+export function sitePictures(group: GroupId, siteType?: string | null): { desktop: string; phone: string } {
+  const example = siteType && Object.hasOwn(SITE_TYPE_EXAMPLE, siteType) ? SITE_TYPE_EXAMPLE[siteType]! : GROUP_SITE[group];
+  return { desktop: `/sell/sites/${example}-desktop.webp`, phone: `/sell/sites/${example}-phone.webp` };
 }
 
 /**
@@ -369,4 +402,36 @@ export function outreachEmails(group: string, steps: Step[], ctx: KitContext): {
     ? `Before you turn this on, replace ${blanks.map((b) => `[${b}]`).join(", ").replace(/, ([^,]+)$/, " and $1")} in each email. Prospects tagged Replied or Customer stop getting these emails.`
     : "Prospects tagged Replied or Customer stop getting these emails.";
   return { input: { group, note, emails }, blanks };
+}
+
+/** A label in Title Case, as the dashboard shows names: "Shops and niche sellers" becomes "Shops And Niche Sellers". */
+export const titleCase = (text: string) => text.replace(/(^|[\s-])(\p{Ll})/gu, (_, gap: string, c: string) => gap + c.toUpperCase());
+
+/** "- **"Question?"** Answer." lines from a playbook's Objections. */
+export function objectionList(source: string): { q: string; a: string }[] {
+  return [...source.matchAll(/^-\s+\*\*(.+?)\*\*\s*(.+)$/gm)].map((m) => ({ q: m[1]!.replace(/^"|"$/g, ""), a: m[2]!.trim() }));
+}
+
+/** What every plan includes, as the offer sheet and deck list it; the group's own setup goes first when it has one. */
+export function included(setup: string | null): string[] {
+  return [...(setup ? [setup] : []), "Hosting, security and nightly backups", "Updates handled for you", "Help when you need it", "No long contract"];
+}
+
+/** White or near-black text, whichever reads better on a colour (a #rrggbb hex), for text on the seller's colour. */
+export function textOn(hex: string): "#ffffff" | "#141a18" {
+  const bg = luminance(hex);
+  if (bg === null) return "#ffffff";
+  const contrast = (fg: number) => (Math.max(bg, fg) + 0.05) / (Math.min(bg, fg) + 0.05);
+  return contrast(luminance("#141a18")!) > contrast(1) ? "#141a18" : "#ffffff";
+}
+
+/** A colour's relative luminance (WCAG), or null when it isn't a six-digit hex colour. */
+function luminance(hex: string): number | null {
+  const m = /^#?([0-9a-f]{6})$/i.exec(hex.trim());
+  if (!m) return null;
+  const [r, g, b] = [0, 2, 4].map((i) => {
+    const c = parseInt(m[1]!.slice(i, i + 2), 16) / 255;
+    return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+  });
+  return 0.2126 * r! + 0.7152 * g! + 0.0722 * b!;
 }
